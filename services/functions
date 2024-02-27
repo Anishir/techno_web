@@ -1,0 +1,8 @@
+from app.schemas import Book
+from app.database import database
+
+
+
+def save_task(add_new_book: Book) -> Book:
+    database["books"].append(add_new_book)
+    return add_new_book
