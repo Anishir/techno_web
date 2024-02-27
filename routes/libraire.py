@@ -12,16 +12,42 @@ app=FastAPI()
 
 
 
-@app.get('/')
+@app.get('/display')
 def display_list_of_book_and_number():
     books = service.display_list_of_book_and_number()
     return JSONResponse(
         content={"books": books, "total_books": total_books},  # Retournez les livres avec le nombre total
         status_code=200,
     )
-   
 
-@app.post('/books')
+
+@app.post("/books/update/{id}")
+def update_book(id: int , auteur : str , titre : str , editeur : str):
+    if id not in data_base :
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="book not founded",
+        )
+    data_base[id] = {"titre" : titre , "auteur" : auteur , "editeur" : editeur }
+    print('message ": "book updated successfully')
+
+
+
+
+@app.post("/books/delete/{id}")
+def delete_book(id : int):
+    if id not in data_base :
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="book not found",
+        )
+    data_base.pop(id)
+    print('the book was deleted successfully')
+
+
+
+
+@app.post('/add_book')
 def add_new_book(name: str, auteur: str,editeur:str):
     new_book_data = {
         "id": str,
