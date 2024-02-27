@@ -13,8 +13,8 @@ app=FastAPI()
 
 
 @app.get('/')
-def afficher_liste_et_nombre_livres():
-    books = service.get_all_tasks()
+def display_list_of_book_and_number():
+    books = service.display_list_of_book_and_number()
     return JSONResponse(
         content={"books": books, "total_books": total_books},  # Retournez les livres avec le nombre total
         status_code=200,
